@@ -8,7 +8,7 @@ function App() {
   const [movies, setMovies] = useState(null);
   useEffect(() => {
     // load the json data
-    fetch("./movies.json")
+    fetch("/api/data")
       .then((response) => response.json())
       .then(setMovies)
       .catch((e) => console.log(e.message));
