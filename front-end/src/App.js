@@ -12,15 +12,23 @@ function App() {
       .then((response) => response.json())
       .then(setMovies)
       .catch((e) => console.log(e.message));
-  }, []);
+  }, [movies]);
 
   const removeMovies = (movie) => {
     const updatedMovies = movies.filter((m) => m.id !== movie.id);
     setMovies(updatedMovies);
   };
 
-  const addMovie = (movie) => {
-    setMovies([...movies, movie]);
+  const addMovie = async (movie) => {
+    const result = await fetch("/api/addMovie", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(movie),
+    });
+    const newMovie = await result.json();
+    setMovies([...movies, newMovie]);
   };
 
   return (
