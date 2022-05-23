@@ -1,19 +1,13 @@
 import express from "express";
 import { MongoClient } from "mongodb";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, "/build")));
 app.use(express.json());
-
-// app.get("/hello", (req, res) => {
-//   res.send("hello there");
-// });
-// app.get("/hello/:name", (req, res) => {
-//   res.send(`hello ${req.params.name}`);
-// });
-
-// app.post("/hello", (req, res) => {
-//   res.send(`hello! ${req.body.name}`);
-// });
 
 const client = new MongoClient("mongodb://localhost:27017");
 
@@ -39,6 +33,10 @@ app.get("/api/data", async (req, res) => {
   } catch (error) {
     res.sendStatus(500);
   }
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/build/index.html"));
 });
 
 app.listen(8000, () => console.log("Server is listening on port 8000"));
