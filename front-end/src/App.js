@@ -8,20 +8,25 @@ function App() {
   const [movies, setMovies] = useState(null);
   useEffect(() => {
     // load the json data
-    fetch("/api/data")
-      .then((response) => response.json())
-      .then(setMovies)
-      .catch((e) => console.log(e.message));
+    const fetchData = async () => {
+      const result = await fetch("/api/data");
+      const body = await result.json();
+      setMovies(body);
+    };
+    fetchData();
   }, [movies]);
 
-  const removeMovies = (movie) => {
-    const updatedMovies = movies.filter((m) => m.id !== movie.id);
+  const removeMovies = async (movie) => {
+    const result = await fetch(`/api/delete/${movie._id}`, {
+      method: "Delete",
+    });
+    const updatedMovies = movies.filter((m) => m._id !== movie._id);
     setMovies(updatedMovies);
   };
 
   const addMovie = async (movie) => {
     const result = await fetch("/api/addMovie", {
-      method: "POST",
+      method: "Post",
       headers: {
         "Content-type": "application/json",
       },

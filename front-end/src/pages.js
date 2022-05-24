@@ -34,7 +34,7 @@ export function Home({ movies = [], onChangeMovies = (f) => f }) {
         <Container>
           <Row xs={2} md={4} lg={6} className="justify-content-center">
             {movies.map((movie) => (
-              <Card key={movie.id} style={{ width: "18rem" }} className="mb-4">
+              <Card key={movie._id} style={{ width: "18rem" }} className="mb-4">
                 <Card.Img variant="top" src={movie.poster} alt={movie.name} />
                 <Card.Body>
                   <Card.Title>{movie.name}</Card.Title>
@@ -82,8 +82,13 @@ export function AddReview({ addMovie }) {
       alert("Please fill all fields.");
       return;
     }
-    const id = uuidv4();
-    addMovie({ id, name, date, actor, poster, rating });
+    let newMovie = {};
+    newMovie.name = name;
+    newMovie.date = date;
+    newMovie.actor = actor;
+    newMovie.poster = poster;
+    newMovie.rating = rating;
+    addMovie(newMovie);
     navigate("/");
   };
 
