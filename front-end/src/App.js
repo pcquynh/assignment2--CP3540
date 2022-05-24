@@ -9,7 +9,12 @@ function App() {
   useEffect(() => {
     // load the json data
     const fetchData = async () => {
-      const result = await fetch("/api/data");
+      const result = await fetch("/api/data", {
+        method: "Get",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const body = await result.json();
       setMovies(body);
     };

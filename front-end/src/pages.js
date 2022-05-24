@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import {
   Card,
   ListGroup,
@@ -33,8 +32,8 @@ export function Home({ movies = [], onChangeMovies = (f) => f }) {
 
         <Container>
           <Row xs={2} md={4} lg={6} className="justify-content-center">
-            {movies.map((movie) => (
-              <Card key={movie._id} style={{ width: "18rem" }} className="mb-4">
+            {movies.map((movie, index) => (
+              <Card key={index} style={{ width: "18rem" }} className="m-4">
                 <Card.Img variant="top" src={movie.poster} alt={movie.name} />
                 <Card.Body>
                   <Card.Title>{movie.name}</Card.Title>
@@ -72,13 +71,34 @@ export function AddReview({ addMovie }) {
 
   const navigate = useNavigate();
 
-  const changePoster = (poster) => {
-    setPoster(poster);
+  const uploadFileHandler = async (e) => {
+    const uploadFile = e.target.files[0];
+
+    const formData = new FormData();
+    formData.append("poster", uploadFile);
+    try {
+      const result = await fetch("/api/upload", {
+        method: "Post",
+        "Content-Type": "multipart/form-data",
+        body: formData,
+      });
+      const { file } = await result.json();
+      setPoster(file);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
   const submitForm = (e) => {
     e.preventDefault();
 
-    if (name === "" || date === "" || actor === "" || rating === "") {
+    if (
+      name === "" ||
+      date === "" ||
+      actor === "" ||
+      rating === "" ||
+      poster === ""
+    ) {
       alert("Please fill all fields.");
       return;
     }
@@ -138,17 +158,15 @@ export function AddReview({ addMovie }) {
               onChange={(e) => setRating(e.target.value)}
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formGroupPoster">
-            <Form.Label>Poster</Form.Label>
-            <Form.Select
-              value={poster}
-              onChange={(e) => changePoster(e.target.value)}
-            >
-              <option value="images/Maverick.jpg">Picture 1</option>
-              <option value="images/Fast.jpg">Picture 2</option>
-              <option value="images/Landing.jpg">Picture 3</option>
-              <option value="images/Autumn.jpg">Picture 4</option>
-            </Form.Select>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Default file input example</Form.Label>
+            <Form.Control
+              id="poster"
+              name="poster"
+              type="file"
+              onChange={uploadFileHandler}
+            />
           </Form.Group>
         </Form>
         <Button variant="primary" type="submit" onClick={submitForm}>
