@@ -6,20 +6,21 @@ import { Home, AddReview } from "./pages";
 
 function App() {
   const [movies, setMovies] = useState(null);
+  // load the json data
+  const fetchData = async () => {
+    const result = await fetch("/api/data", {
+      method: "Get",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const body = await result.json();
+    setMovies(body);
+  };
+
   useEffect(() => {
-    // load the json data
-    const fetchData = async () => {
-      const result = await fetch("/api/data", {
-        method: "Get",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const body = await result.json();
-      setMovies(body);
-    };
     fetchData();
-  }, [movies]);
+  }, []);
 
   const removeMovies = async (movie) => {
     const result = await fetch(`/api/delete/${movie._id}`, {
@@ -39,6 +40,7 @@ function App() {
     });
     const newMovie = await result.json();
     setMovies([...movies, newMovie]);
+    fetchData();
   };
 
   return (

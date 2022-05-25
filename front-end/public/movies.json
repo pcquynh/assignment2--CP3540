@@ -1,7 +1,6 @@
 [
     
         {
-            "id": 1,
             "name": "Top Gun: Maverick",
             "date": 2022,
             "actor": "Tom Cruise, Jennifer Connelly",
@@ -9,7 +8,6 @@
             "rating":4
         },
         {
-            "id": 2,
             "name": "Fast and Furious 6",
             "date": 2013,
             "actor": "Vin Diesel, Paul Walker, Michelle Rodriguez",
@@ -17,7 +15,6 @@
             "rating":4
         },
         {
-            "id": 3,
             "name": "Crash Landing on You",
             "date": 2019,
             "actor": "Huyn Bin, Son Ye-jin",
@@ -25,7 +22,6 @@
             "rating":5
         },
         {
-            "id": 4,
             "name": "Autumn in My Heart",
             "date": 2000,
             "actor": "Won Bin, Song Hye-kyo",
