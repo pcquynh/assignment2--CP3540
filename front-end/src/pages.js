@@ -66,7 +66,7 @@ export function AddReview({ addMovie }) {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [actor, setActor] = useState("");
-  const [poster, setPoster] = useState("images/Maverick.jpg");
+  const [poster, setPoster] = useState("");
   const [rating, setRating] = useState("");
 
   const navigate = useNavigate();
